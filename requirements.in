@@ -1,0 +1,17 @@
+tqdm>=4.66.3
+langchain==0.3.1
+langchain-community>=0.2.0
+javascript
+openai
+chardet
+cchardet
+tiktoken
+requests>=2.32.0
+setuptools
+gymnasium
+psutil
+minecraft_launcher_lib==6.1
+npm
+npx
+psutil
+langchain-chroma>=0.1.0

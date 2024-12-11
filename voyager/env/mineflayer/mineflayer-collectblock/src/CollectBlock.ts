@@ -68,10 +68,12 @@ async function collectAll(
                             // @ts-ignore
                         } else if (err.name === "NoItem") {
                             const properties =
-                                bot.registry.blocksByName[closest.name];
+                                bot.registry.blocksByName[closest.name as string];
                             const leastTool = Object.keys(
+                                // @ts-ignore
                                 properties.harvestTools
                             )[0];
+                            // @ts-ignore
                             const item = bot.registry.items[leastTool];
                             bot.chat(
                                 `I need at least a ${item.name} to mine ${closest.name}!  Skip it!`
@@ -206,6 +208,7 @@ async function mineBlock(
         }
     });
     try {
+        // @ts-ignore
         await bot.dig(block);
         // Waiting for items to drop
         await new Promise<void>((resolve) => {
@@ -422,8 +425,10 @@ export class CollectBlock {
         maxDistance = 16,
         floodRadius = 1
     ): Block[] {
+        // @ts-ignore
         return findFromVein(
             this.bot,
+            // @ts-ignore
             block,
             maxBlocks,
             maxDistance,

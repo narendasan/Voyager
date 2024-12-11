@@ -51,7 +51,7 @@ Voyager requires Python ≥ 3.9 and Node.js ≥ 16.13.0. We have tested on Ubunt
 git clone https://github.com/MineDojo/Voyager
 cd Voyager
 python3.10 -m venv venv
-./venv/Scripts/activate
+.\venv\Scripts\activate
 pip install -e .
 ```
 ### Ubuntu 20.04 and MacOS Installation

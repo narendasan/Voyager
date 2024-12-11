@@ -39,7 +39,7 @@ openai_api_key = os.getenv("OPENAI_API_KEY")
 voyager = Voyager(
     mc_port=mc_port,
     openai_api_key=openai_api_key,
-    resume=True
+    resume=False
 )
 
 # Start lifelong learning

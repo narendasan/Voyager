@@ -38,7 +38,8 @@ openai_api_key = os.getenv("OPENAI_API_KEY")
 # Initialize the Voyager instance with the Minecraft port and OpenAI API key
 voyager = Voyager(
     mc_port=mc_port,
-    openai_api_key=openai_api_key
+    openai_api_key=openai_api_key,
+    resume=True
 )
 
 # Start lifelong learning

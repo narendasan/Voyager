@@ -40,10 +40,26 @@ In this repo, we provide Voyager code. This codebase is under [MIT License](LICE
 # Installation
 Voyager requires Python ≥ 3.9 and Node.js ≥ 16.13.0. We have tested on Ubuntu 20.04, Windows 11, and macOS. You need to follow the instructions below to install Voyager.
 
+- [Python Download](https://www.python.org/downloads/release/python-31011/)
+- [Node.js Download](https://nodejs.org/en/download/package-manager)
+
+
 ## Python Install
+
+### Windows 11 Installation
 ```
 git clone https://github.com/MineDojo/Voyager
 cd Voyager
+python3.10 -m venv venv
+./venv/Scripts/activate
+pip install -e .
+```
+### Ubuntu 20.04 and MacOS Installation
+```
+git clone https://github.com/MineDojo/Voyager
+cd Voyager
+python3.10 -m venv venv
+source ./venv/bin/activate
 pip install -e .
 ```
 
@@ -72,60 +88,45 @@ You need to install fabric mods to support all the features in Voyager. Remember
 Follow the instructions in [Fabric Mods Install](installation/fabric_mods_install.md) to install the mods.
 
 # Getting Started
+
 Voyager uses OpenAI's GPT-4 as the language model. You need to have an OpenAI API key to use Voyager. You can get one from [here](https://platform.openai.com/account/api-keys).
 
-After the installation process, you can run Voyager by:
-```python
-from voyager import Voyager
+Place your OpenAI API key in a new file called `.env`. Paste the following into the file, replacing `<YOUR_OPENAI_API_KEY>` with your actual OpenAI API key. OpenAI API Keys always start with `sk-`.
 
-# You can also use mc_port instead of azure_login, but azure_login is highly recommended
-azure_login = {
-    "client_id": "YOUR_CLIENT_ID",
-    "redirect_url": "https://127.0.0.1/auth-response",
-    "secret_value": "[OPTIONAL] YOUR_SECRET_VALUE",
-    "version": "fabric-loader-0.14.18-1.19", # the version Voyager is tested on
-}
-openai_api_key = "YOUR_API_KEY"
-
-voyager = Voyager(
-    azure_login=azure_login,
-    openai_api_key=openai_api_key,
-)
-
-# start lifelong learning
-voyager.learn()
+```
+OPENAI_API_KEY="<YOUR_OPENAI_API_KEY>"
 ```
 
-* If you are running with `Azure Login` for the first time, it will ask you to follow the command line instruction to generate a config file.
-* For `Azure Login`, you also need to select the world and open the world to LAN by yourself. After you run `voyager.learn()` the game will pop up soon, you need to:
-  1. Select `Singleplayer` and press `Create New World`.
-  2. Set Game Mode to `Creative` and Difficulty to `Peaceful`.
-  3. After the world is created, press `Esc` key and press `Open to LAN`.
-  4. Select `Allow cheats: ON` and press `Start LAN World`. You will see the bot join the world soon. 
+After the installation process, you will need to start Minecraft.
+  1. Start a single player game with Game Mode set to `Creative` and Difficulty set to `Peaceful`. 
+  2. After the world is created, press `Esc` key and press `Open to LAN`. 
+  3. Select `Allow cheats: ON` and press `Start LAN World`. You will see the bot join the world soon. 
+
+Once Minecraft is ready, you can run Voyager by executing the following command:
+
+```bash
+python main.py
+```
 
 # Resume from a checkpoint during learning
 
-If you stop the learning process and want to resume from a checkpoint later, you can instantiate Voyager by:
+If you stop the learning process and want to resume from a checkpoint later, you can update `main.py` (as shown below) and restart Voyager:
 ```python
-from voyager import Voyager
-
 voyager = Voyager(
-    azure_login=azure_login,
+    mc_port=mc_port,
     openai_api_key=openai_api_key,
     ckpt_dir="YOUR_CKPT_DIR",
-    resume=True,
+    resume=True
 )
 ```
 
 # Run Voyager for a specific task with a learned skill library
 
-If you want to run Voyager for a specific task with a learned skill library, you should first pass the skill library directory to Voyager:
+If you want to run Voyager for a specific task with a learned skill library, you should first pass the skill library directory to Voyager by making the following changes to `main.py` and restarting:
 ```python
-from voyager import Voyager
-
 # First instantiate Voyager with skill_library_dir.
 voyager = Voyager(
-    azure_login=azure_login,
+    mc_port=mc_port,
     openai_api_key=openai_api_key,
     skill_library_dir="./skill_library/trial1", # Load a learned skill library.
     ckpt_dir="YOUR_CKPT_DIR", # Feel free to use a new dir. Do not use the same dir as skill library because new events will still be recorded to ckpt_dir. 

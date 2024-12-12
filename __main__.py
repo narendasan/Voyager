@@ -26,21 +26,26 @@ def find_minecraft_java_port():
                 continue
     return None
 
-# Load environment variables from .env file
-load_dotenv()
+if __name__ == "__main__":
+    # Load environment variables from .env file
+    load_dotenv()
 
-# Find the port number for the Minecraft Java server
-mc_port = find_minecraft_java_port()
+    # Find the port number for the Minecraft Java server
+    mc_port = find_minecraft_java_port()
 
-# Get OpenAI API key from environment variables
-openai_api_key = os.getenv("OPENAI_API_KEY")
+    # Get OpenAI API key from environment variables
+    openai_api_key = os.getenv("OPENAI_API_KEY")
 
-# Initialize the Voyager instance with the Minecraft port and OpenAI API key
-voyager = Voyager(
-    mc_port=mc_port,
-    openai_api_key=openai_api_key,
-    resume=False
-)
+    if mc_port is None:
+        print("\033[41;33m\n\n\n *** Minecraft Java server not found. Make sure the server is running. *** \n\n\033[0m")
+        exit()
 
-# Start lifelong learning
-voyager.learn()
+    # Initialize the Voyager instance with the Minecraft port and OpenAI API key
+    voyager = Voyager(
+        mc_port=mc_port,
+        openai_api_key=openai_api_key,
+        resume=False
+    )
+
+    # Start lifelong learning
+    voyager.learn()

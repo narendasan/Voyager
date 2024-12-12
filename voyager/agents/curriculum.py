@@ -6,8 +6,8 @@ import re
 import voyager.utils as U
 from voyager.prompts import load_prompt
 from voyager.utils.json_utils import fix_and_parse_json
-from langchain.chat_models import ChatOpenAI
-from langchain.embeddings.openai import OpenAIEmbeddings
+from langchain_community.chat_models import ChatOpenAI
+from langchain_community.embeddings.openai import OpenAIEmbeddings
 from langchain.schema import HumanMessage, SystemMessage
 from langchain_community.vectorstores import Chroma
 
@@ -429,7 +429,6 @@ class CurriculumAgent:
                 texts=[question],
             )
             U.dump_json(self.qa_cache, f"{self.ckpt_dir}/curriculum/qa_cache.json")
-            self.qa_cache_questions_vectordb.persist()
         context = f"Question: {question}\n{answer}"
         return context
 

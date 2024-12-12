@@ -66,13 +66,14 @@ pip install -e .
 ## Node.js Install
 In addition to the Python dependencies, you need to install the following Node.js packages:
 ```
-cd voyager/env/mineflayer
+pushd voyager/env/mineflayer
 npm install -g npx
 npm install
 cd mineflayer-collectblock
 npx tsc
 cd ..
 npm install
+popd
 ```
 
 ## Minecraft Instance Install
@@ -104,13 +105,25 @@ After the installation process, you will need to start Minecraft.
 
 Once Minecraft is ready, you can run Voyager by executing the following command:
 
+### PowerShell
+
+```PowerShell
+.\venv\Scripts\Activate; python .
+```
+
+### Windows Command Prompt
+```Windows Command Prompt
+.\venv\Scripts\Activate && python .
+```
+
+### Ubuntu 20.04 and MacOS
 ```bash
-python main.py
+source ./venv/bin/activate; python .
 ```
 
 # Resume from a checkpoint during learning
 
-If you stop the learning process and want to resume from a checkpoint later, you can update `main.py` (as shown below) and restart Voyager:
+If you stop the learning process and want to resume from a checkpoint later, you can update `__main__.py` (as shown below) and restart Voyager:
 ```python
 voyager = Voyager(
     mc_port=mc_port,
@@ -122,7 +135,7 @@ voyager = Voyager(
 
 # Run Voyager for a specific task with a learned skill library
 
-If you want to run Voyager for a specific task with a learned skill library, you should first pass the skill library directory to Voyager by making the following changes to `main.py` and restarting:
+If you want to run Voyager for a specific task with a learned skill library, you should first pass the skill library directory to Voyager by making the following changes to `__main__.py` and restarting:
 ```python
 # First instantiate Voyager with skill_library_dir.
 voyager = Voyager(

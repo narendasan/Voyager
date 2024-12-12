@@ -27,16 +27,6 @@ def find_minecraft_java_port():
     return None
 
 if __name__ == "__main__":
-
-    print(" _   _                                   ")
-    print("| | | |                                  ")
-    print("| | | | ___  _   _  __ _  __ _  ___ _ __ ")
-    print("| | | |/ _ \| | | |/ _` |/ _` |/ _ \ '__|")
-    print("\ \_/ / (_) | |_| | (_| | (_| |  __/ |   ")
-    print(" \___/ \___/ \__, |\__,_|\__, |\___|_|   ")
-    print("              __/ |       __/ |          ")
-    print("             |___/       |___/           ")
-
     # Load environment variables from .env file
     load_dotenv()
 
@@ -47,17 +37,14 @@ if __name__ == "__main__":
     openai_api_key = os.getenv("OPENAI_API_KEY")
 
     if mc_port is None:
-        print("\n\033[41;33m************************************************************************* \033[0m")
-        print("\033[41;33m*** Minecraft Java server not found. Make sure the server is running. *** \033[0m")
-        print("\033[41;33m************************************************************************* \033[0m")
-        print()
+        print("\033[41;33m\n\n\n *** Minecraft Java server not found. Make sure the server is running. *** \n\n\033[0m")
         exit()
 
     # Initialize the Voyager instance with the Minecraft port and OpenAI API key
     voyager = Voyager(
         mc_port=mc_port,
         openai_api_key=openai_api_key,
-        resume=True
+        resume=False
     )
 
     # Start lifelong learning

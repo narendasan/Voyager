@@ -6,11 +6,10 @@ import re
 import voyager.utils as U
 from voyager.prompts import load_prompt
 from voyager.utils.json_utils import fix_and_parse_json
-from langchain_community.chat_models import ChatOpenAI
-from langchain_community.embeddings.openai import OpenAIEmbeddings
+from langchain_openai.chat_models import ChatOpenAI
+from langchain_openai.embeddings import OpenAIEmbeddings
 from langchain.schema import HumanMessage, SystemMessage
-from langchain_community.vectorstores import Chroma
-
+from langchain_chroma.vectorstores import Chroma
 
 class CurriculumAgent:
     def __init__(
@@ -458,7 +457,7 @@ class CurriculumAgent:
                 events=events, chest_observation=chest_observation
             ),
         ]
-        qa_response = self.qa_llm(messages).content
+        qa_response = self.qa_llm.invoke(messages).content
         try:
             # Regex pattern to extract question and concept pairs
             pattern = r"Question \d+: (.+)\nConcept \d+: (.+)"
@@ -492,6 +491,6 @@ class CurriculumAgent:
             self.render_human_message_qa_step2_answer_questions(question=question),
         ]
         print(f"\033[35mCurriculum Agent Question: {question}\033[0m")
-        qa_answer = self.qa_llm(messages).content
+        qa_answer = self.qa_llm.invoke(messages).content
         print(f"\033[31mCurriculum Agent {qa_answer}\033[0m")
         return qa_answer

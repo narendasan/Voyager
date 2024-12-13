@@ -1,11 +1,10 @@
 tqdm>=4.66.3
-langchain==0.3.1
 langchain-community>=0.2.0
 javascript<= 1!1.0.2
-openai<= 0.27.8
+openai
 chardet<= 5.1.0
 cchardet<= 2.1.7
-tiktoken<= 0.4.0
+tiktoken
 requests>=2.32.0
 setuptools<= 68.0.0
 gymnasium<= 0.29.0

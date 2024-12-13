@@ -28,14 +28,22 @@ def find_minecraft_java_port():
 
 if __name__ == "__main__":
 
-    print(" _   _                                   ")
-    print("| | | |                                  ")
-    print("| | | | ___  _   _  __ _  __ _  ___ _ __ ")
-    print("| | | |/ _ \| | | |/ _` |/ _` |/ _ \ '__|")
-    print("\ \_/ / (_) | |_| | (_| | (_| |  __/ |   ")
-    print(" \___/ \___/ \__, |\__,_|\__, |\___|_|   ")
-    print("              __/ |       __/ |          ")
-    print("             |___/       |___/           ")
+    print("                  _   _                                   ")
+    print("                 | | | |                                  ")
+    print("                 | | | | ___  _   _  __ _  __ _  ___ _ __ ")
+    print("                 | | | |/ _ \| | | |/ _` |/ _` |/ _ \ '__|")
+    print("                 \ \_/ / (_) | |_| | (_| | (_| |  __/ |   ")
+    print("                  \___/ \___/ \__, |\__,_|\__, |\___|_|   ")
+    print("                               __/ |       __/ |          ")
+    print("                              |___/       |___/           ")
+    print()
+    print("        An Open-Ended Embodied Agent with Large Language Models")
+    print()
+    print("                          original authors:")
+    print("             Guanzhi Wang and Yuqi Xie and Yunfan Jiang and")
+    print("              Ajay Mandlekar and Chaowei Xiao and Yuke Zhu")
+    print("                  and Linxi Fan and Anima Anandkumar")
+    print()
 
     # Load environment variables from .env file
     load_dotenv()
@@ -53,11 +61,14 @@ if __name__ == "__main__":
         print()
         exit()
 
+    # Ask the user if they want to start over or continue from their previous session
+    resume = input("Do you want to continue from your previous session? (yes/no): ").strip().lower() == 'yes'
+
     # Initialize the Voyager instance with the Minecraft port and OpenAI API key
     voyager = Voyager(
         mc_port=mc_port,
         openai_api_key=openai_api_key,
-        resume=True
+        resume=resume
     )
 
     # Start lifelong learning

@@ -154,6 +154,7 @@ if __name__ == "__main__":
 
     # Get OpenAI API key from environment variables
     openai_api_key = os.getenv("OPENAI_API_KEY")
+    openai_model = os.getenv("OPENAI_MODEL")
 
     if mc_port is None:
         print("\n\033[41;33m************************************************************************* \033[0m")
@@ -169,6 +170,11 @@ if __name__ == "__main__":
     voyager = Voyager(
         mc_port=mc_port,
         openai_api_key=openai_api_key,
+        action_agent_model_name=openai_model,
+        curriculum_agent_model_name=openai_model,
+        curriculum_agent_qa_model_name=openai_model,
+        critic_agent_model_name=openai_model,
+        skill_manager_model_name=openai_model,
         resume=resume
     )
 

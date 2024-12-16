@@ -5,6 +5,8 @@ import os
 import socket
 import struct
 import json
+from concurrent.futures import ThreadPoolExecutor, as_completed
+import threading
 
 
 def to_varint(n):
@@ -17,11 +19,17 @@ def to_varint(n):
     return bytes(byte_array)
 
 
+# Add a shared event
+stop_event = threading.Event()
+
 def verify_minecraft_server(ip_addr, port_number):
+    print(f"Trying port {port_number}")
     sock = None
+    if stop_event.is_set():
+        return False
     try:
         # Connect to the server with a timeout
-        sock = socket.create_connection((ip_addr, port_number), timeout=5)
+        sock = socket.create_connection((ip_addr, port_number), timeout=1)
 
         # Construct the Handshake packet
         # 1. Packet ID (1 byte, for Handshake this is 0x00)
@@ -70,12 +78,15 @@ def verify_minecraft_server(ip_addr, port_number):
         server_data = json.loads(response)
 
         if "description" in server_data and "players" in server_data:
+            print(f"Found Minecraft server on port {port_number}")
+            stop_event.set()
             return True
         else:
-            print("Not a valid Minecraft server.")
+            print(f"Port {port_number} is not a valid Minecraft server.")
             return False
 
     except Exception as e:
+        #print(f"Exception on port {port_number}: {e}")
         return False
 
     finally:
@@ -101,35 +112,19 @@ def read_varint(sock):
     return value
 
 
-# Example usage
-ip = "127.0.0.1"
-port = 25565
-verify_minecraft_server(ip, port)
-
-
-def find_minecraft_java_port():
-    """
-    Finds the port number on which a Minecraft Java server is listening.
-    
-    Returns:
-        int: The port number if found, otherwise None.
-    """
-    # Iterate over all network connections
-    for conn in psutil.net_connections(kind='inet'):
-        # Check if the connection is listening
-        if conn.status == psutil.CONN_LISTEN:
-            try:
-                # Check the process associated with this connection
-                process = psutil.Process(conn.pid)
-                if 'java' in process.name().lower():
-                    # Check for a common identifier of Minecraft server in command line args
-                    cmdline = process.cmdline()
-                    if any('minecraft' in arg.lower() for arg in cmdline):
-                        if verify_minecraft_server(ip, conn.laddr.port):
-                            return conn.laddr.port
-            except (psutil.NoSuchProcess, psutil.AccessDenied):
-                continue
+def scan_ports(ip, start_port, end_port, max_workers=100):
+    """Scans ports on the given IP address to find an open Minecraft server."""
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        future_to_port = {}
+        for port in range(start_port, end_port + 1):
+            #print(f"Scanning port {port}")
+            future_to_port[executor.submit(verify_minecraft_server, ip, port)] = port
+        for future in as_completed(future_to_port):
+            port = future_to_port[future]
+            if future.result():
+                return port
     return None
+
 
 if __name__ == "__main__":
 
@@ -153,15 +148,21 @@ if __name__ == "__main__":
     # Load environment variables from .env file
     load_dotenv()
 
-    # Find the port number for the Minecraft Java server
-    mc_port = find_minecraft_java_port()
-
     # Get OpenAI API key from environment variables
     openai_api_key = os.getenv("OPENAI_API_KEY")
 
+    ip = "127.0.0.1"
+    start_port = 56100
+    end_port = 65535
+    print(f"Starting port scan from {start_port} to {end_port}")
+    #mc_port = scan_ports(ip, start_port, end_port)
+
+    mc_port = 56109
+
     if mc_port is None:
         print("\n\033[41;33m************************************************************************* \033[0m")
-        print("\033[41;33m*** Minecraft Java server not found. Make sure the server is running. *** \033[0m")
+        print("\033[41;33m*** Unable to find an open Minecraft instance. Make sure Minecraft is *** \033[0m")
+        print("\033[41;33m*** running and 'Open To LAN' has been clicked.                       *** \033[0m")
         print("\033[41;33m************************************************************************* \033[0m")
         print()
         exit()

@@ -1,10 +1,9 @@
 import copy
-import json
 import os
 import time
 from typing import Dict
 
-import voyager.utils as U
+import voyager.utils as u
 from .env import VoyagerEnv
 
 from .agents import ActionAgent
@@ -151,7 +150,7 @@ class Voyager:
             ckpt_dir=skill_library_dir if skill_library_dir else ckpt_dir,
             resume=True if resume or skill_library_dir else False,
         )
-        self.recorder = U.EventRecorder(ckpt_dir=ckpt_dir, resume=resume)
+        self.recorder = u.EventRecorder(ckpt_dir=ckpt_dir, resume=resume)
         self.resume = resume
 
         # init variables for rollout
@@ -237,7 +236,7 @@ class Voyager:
                         blocks.append(block)
                         positions.append(position)
                 new_events = self.env.step(
-                    f"await givePlacedItemBack(bot, {U.json_dumps(blocks)}, {U.json_dumps(positions)})",
+                    f"await givePlacedItemBack(bot, {u.json_dumps(blocks)}, {u.json_dumps(positions)})",
                     programs=self.skill_manager.programs,
                 )
                 events[-1][1]["inventory"] = new_events[-1][1]["inventory"]

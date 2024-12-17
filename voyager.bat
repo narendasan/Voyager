@@ -39,7 +39,7 @@ if "%1"=="install" (
 :: Check if environment exists
 if not exist venv (
     echo Virtual environment not found.
-    echo Please run 'voyager.bat -install' first to set up the application.
+    echo Please run 'voyager.bat install' first to set up the application.
     exit /b 1
 )
 
@@ -186,8 +186,13 @@ call npm install %NPM_QUIET% %QUIET_REDIRECT% || (
 :: Return to the previous directory
 popd
 
+setlocal DisableDelayedExpansion
+echo.
 echo Installation completed successfully!
 echo Run 'voyager.bat' without parameters to start the application.
+echo.
+endlocal
+
 exit /b 0
 
 endlocal

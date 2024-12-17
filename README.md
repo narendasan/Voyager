@@ -116,8 +116,8 @@ Run 'voyager.bat' without parameters to start the application.
 
 After the installation process, you will need to start Minecraft.
   1. Start a single player game with Game Mode set to `Creative` and Difficulty set to `Peaceful`. 
-  2. After the world is created, press `Esc` key and press `Open to LAN`. 
-  3. Select `Allow cheats: ON` and press `Start LAN World`. You will see the bot join the world soon. 
+  2. After the world is created, press the `Esc` key and press `Open to LAN`. 
+  3. Select `Allow cheats: ON` and press `Start LAN World`. 
 
 Once Minecraft is ready, you can run Voyager by executing the following on the Windows Command Prompt:
 ```

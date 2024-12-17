@@ -38,7 +38,7 @@ if "%1"=="install" (
 :run
 :: Check if environment exists
 if not exist venv (
-    echo Virtual environment not found.
+    echo.
     echo Please run 'voyager.bat install' first to set up the application.
     exit /b 1
 )
@@ -86,9 +86,17 @@ for /f "tokens=2 delims= " %%v in ('!PYTHON_CMD! --version 2^>nul') do (
 )
 echo Found Python version %PYTHON_VERSION%
 
+:: Run configuration script
+echo.
+!PYTHON_CMD! config.py || (
+    echo Error: Configuration failed. Please try again.
+    exit /b 1
+)
+echo.
+
 :: Check for Node.js
 echo Checking Node.js version...
-for /f "delims=" %%i in ('node -v 2^>nul') do set "NODE_VERSION=%%i"
+for /f "delims=" %%i in ('node -v 2^nul') do set "NODE_VERSION=%%i"
 if not defined NODE_VERSION (
     echo Node.js is not installed. Please install Node.js.
     exit /b 1

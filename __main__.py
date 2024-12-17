@@ -157,8 +157,10 @@ if __name__ == "__main__":
     openai_model = os.getenv("OPENAI_MODEL")
 
     if mc_port is None:
-        print("\n\033[41;33m************************************************************************* \033[0m")
-        print("\033[41;33m*** Minecraft Java server not found. Make sure the server is running. *** \033[0m")
+        print()
+        print("\033[41;33m************************************************************************* \033[0m")
+        print("\033[41;33m*** Unable to connect to Minecraft. Please make sure Minecraft is     *** \033[0m")
+        print("\033[41;33m*** running and that 'Open to LAN' has been clicked.                  *** \033[0m")
         print("\033[41;33m************************************************************************* \033[0m")
         print()
         exit()

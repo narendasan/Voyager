@@ -38,90 +38,119 @@ solve novel tasks from scratch, while other techniques struggle to generalize.
 In this repo, we provide Voyager code. This codebase is under [MIT License](LICENSE).
 
 # Installation
-Voyager requires Python ≥ 3.9 and Node.js ≥ 16.13.0. We have tested on Ubuntu 20.04, Windows 11, and macOS. You need to follow the instructions below to install Voyager.
+Voyager requires Python 3.10 and Node.js ≥ 16.13.0.
+
+If you don't have them already, please download and install the following:
 
 - [Python Download](https://www.python.org/downloads/release/python-31011/)
 - [Node.js Download](https://nodejs.org/en/download/package-manager)
 
+## Minecraft Installation
 
-## Python Install
+[Modrinth](https://modrinth.com/) is recommended for setting up your Minecraft client. You can also 
+use any means you're comfortable with to install the necessary mods. 
 
-### Windows 11 Installation
-```
-git clone https://github.com/MineDojo/Voyager
-cd Voyager
-python3.10 -m venv venv
-.\venv\Scripts\activate
-pip install -e .
-```
-### Ubuntu 20.04 and MacOS Installation
-```
-git clone https://github.com/MineDojo/Voyager
-cd Voyager
-python3.10 -m venv venv
-source ./venv/bin/activate
-pip install -e .
-```
+In Modrinth, create a new profile and call it "Voyager" (or some other name meaningful to you). Use
+Minecraft version 1.19.4. Install the following content:
 
-## Node.js Install
-In addition to the Python dependencies, you need to install the following Node.js packages:
+- CompleteConfig 2.3.1
+- Fabric API 0.87.2+1.19.4
+- Mode Menu 6.3.1
+- Multiplayer Server Pause 1.3.0
+- iChunUtil 1.0.0
+
+Modrinth will automatically select compatible versions: you don't have to specify them manually.
+## Voyager Installation
+
+In the Command Prompt, navigate to the Voyager repo and type the following: 
 ```
-pushd voyager/env/mineflayer
-npm install -g npx
-npm install
-cd mineflayer-collectblock
-npx tsc
-cd ..
-npm install
-popd
+voyager install
 ```
 
-## Minecraft Instance Install
-
-Voyager depends on Minecraft game. You need to install Minecraft game and set up a Minecraft instance.
-
-Follow the instructions in [Minecraft Login Tutorial](installation/minecraft_instance_install.md) to set up your Minecraft Instance.
-
-## Fabric Mods Install
-
-You need to install fabric mods to support all the features in Voyager. Remember to use the correct Fabric version of all the mods. 
-
-Follow the instructions in [Fabric Mods Install](installation/fabric_mods_install.md) to install the mods.
-
-# Getting Started
-
-Voyager uses OpenAI's GPT-4 as the language model. You need to have an OpenAI API key to use Voyager. You can get one from [here](https://platform.openai.com/account/api-keys).
-
-Place your OpenAI API key in a new file called `.env`. Paste the following into the file, replacing `<YOUR_OPENAI_API_KEY>` with your actual OpenAI API key. OpenAI API Keys always start with `sk-`.
-
+You will see the following on the screen:
 ```
-OPENAI_API_KEY="<YOUR_OPENAI_API_KEY>"
+>voyager install
+Starting installation...
+Checking Python version...
+Found Python version 3.10.11
+
+Enter your OpenAI API key:
 ```
+Copy and paste your OpenAI API Key and hit enter. It will be invisible when you paste it.
+
+Next, you will see the following:
+```
+Available OpenAI models:
+1. gpt-4
+2. gpt-4o
+3. gpt-4o-mini
+
+Select a model by entering the corresponding number:
+```
+Select the OpenAI model you want to use. GPT-4 is the most capable, but also very expensive. Consider
+starting with GPT-4o for the most balanced experience. After this, the installation should complete
+after a few minutes.
+
+Should you ever want to change these options, you can edit the `.env` file.
+
+You should see the following:
+```
+✅ .env file created successfully!
+
+Your configuration has been saved in '.env'.
+
+Checking Node.js version...
+Found Node.js version 22.12.0
+Removing existing virtual environment...
+Creating new virtual environment...
+Activating virtual environment...
+Installing Python dependencies...
+Setting up Mineflayer environment...
+Installing Node.js dependencies...
+Setting up mineflayer-collectblock...
+
+Installation completed successfully!
+Run 'voyager.bat' without parameters to start the application.
+```
+## Let's Go!
 
 After the installation process, you will need to start Minecraft.
   1. Start a single player game with Game Mode set to `Creative` and Difficulty set to `Peaceful`. 
   2. After the world is created, press `Esc` key and press `Open to LAN`. 
   3. Select `Allow cheats: ON` and press `Start LAN World`. You will see the bot join the world soon. 
 
-Once Minecraft is ready, you can run Voyager by executing the following command:
+Once Minecraft is ready, you can run Voyager by executing the following on the Windows Command Prompt:
+```
+voyager
+```
+### First Run 
+Note: The first time you run, answer "no" when prompted. On subsequent runs answer "yes".
+```
+>voyager
+Starting Voyager...
+                  _   _
+                 | | | |
+                 | | | | ___  _   _  __ _  __ _  ___ _ __
+                 | | | |/ _ \| | | |/ _` |/ _` |/ _ \ '__|
+                 \ \_/ / (_) | |_| | (_| | (_| |  __/ |
+                  \___/ \___/ \__, |\__,_|\__, |\___|_|
+                               __/ |       __/ |
+                              |___/       |___/
 
-### PowerShell
+        An Open-Ended Embodied Agent with Large Language Models
 
-```PowerShell
-.\venv\Scripts\Activate; python .
+                          original authors:
+             Guanzhi Wang and Yuqi Xie and Yunfan Jiang and
+              Ajay Mandlekar and Chaowei Xiao and Yuke Zhu
+                  and Linxi Fan and Anima Anandkumar
+
+Do you want to continue from your previous session? (yes/no):
 ```
 
-### Windows Command Prompt
-```Windows Command Prompt
-.\venv\Scripts\Activate && python .
-```
+Enjoy!
 
-### Ubuntu 20.04 and MacOS
-```bash
-source ./venv/bin/activate; python .
-```
-
-# Resume from a checkpoint during learning
+# Advanced
+## Resume from a checkpoint during learning
 
 If you stop the learning process and want to resume from a checkpoint later, you can update `__main__.py` (as shown below) and restart Voyager:
 ```python
@@ -133,7 +162,7 @@ voyager = Voyager(
 )
 ```
 
-# Run Voyager for a specific task with a learned skill library
+## Run Voyager for a specific task with a learned skill library
 
 If you want to run Voyager for a specific task with a learned skill library, you should first pass the skill library directory to Voyager by making the following changes to `__main__.py` and restarting:
 ```python
@@ -148,7 +177,7 @@ voyager = Voyager(
 ```
 Then, you can run task decomposition. Notice: Occasionally, the task decomposition may not be logical. If you notice the printed sub-goals are flawed, you can rerun the decomposition.
 ```python
-# Run task decomposition
+## Run task decomposition
 task = "YOUR TASK" # e.g. "Craft a diamond pickaxe"
 sub_goals = voyager.decompose_task(task=task)
 ```
@@ -162,7 +191,7 @@ For all valid skill libraries, see [Learned Skill Libraries](skill_library/READM
 # FAQ
 If you have any questions, please check our [FAQ](FAQ.md) first before opening an issue.
 
-# Paper and Citation
+# Original Paper and Citation
 
 If you find our work useful, please consider citing us! 
 

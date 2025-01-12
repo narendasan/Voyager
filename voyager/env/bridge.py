@@ -148,6 +148,7 @@ class VoyagerEnv(gym.Env):
             "spread": options.get("spread", False),
             "waitTicks": options.get("wait_ticks", 5),
             "position": options.get("position", None),
+            "bot_name": options.get("bot_name", "bot"),
         }
 
         self.unpause()

@@ -47,6 +47,7 @@ class Voyager:
         ckpt_dir: str = "ckpt",
         skill_library_dir: str = None,
         resume: bool = False,
+        bot_name: str = "bot",
     ):
         """
         The main class for Voyager.
@@ -99,6 +100,7 @@ class Voyager:
         :param skill_library_dir: skill library dir
         :param resume: whether to resume from checkpoint
         """
+        ckpt_dir = ckpt_dir + "/" + bot_name
         # init env
         self.env = VoyagerEnv(
             mc_port=mc_port,
@@ -109,6 +111,7 @@ class Voyager:
         self.env_wait_ticks = env_wait_ticks
         self.reset_placed_if_failed = reset_placed_if_failed
         self.max_iterations = max_iterations
+        self.bot_name = bot_name
 
         # set openai api key
         os.environ["OPENAI_API_KEY"] = openai_api_key
@@ -170,6 +173,7 @@ class Voyager:
                 options={
                     "mode": "soft",
                     "wait_ticks": self.env_wait_ticks,
+                    "bot_name": self.bot_name
                 }
             )
         difficulty = (

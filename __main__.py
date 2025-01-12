@@ -177,7 +177,9 @@ if __name__ == "__main__":
         curriculum_agent_qa_model_name=openai_model,
         critic_agent_model_name=openai_model,
         skill_manager_model_name=openai_model,
-        resume=resume
+        resume=resume,
+        server_port=3000,
+        bot_name="bot_a",
     )
 
     # Start lifelong learning
